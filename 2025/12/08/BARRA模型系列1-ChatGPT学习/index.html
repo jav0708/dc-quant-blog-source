@@ -1,0 +1,354 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>BARRA模型系列1-ChatGPT学习 | D.C的量化博客</title><meta name="author" content="D.C"><meta name="copyright" content="D.C"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="glmos-code-explain  本系列主要是我和ChatGPT学习BARRA模型的系列解说，本篇为第一期。欢迎持续关注。  一、什么是BARRA模型？为什么需要BARRA？1.1 为啥要多因子？BARRA模型发展的起因是，旧有的CAPM模型（单因子模型）不足以解释股票收益的绝对收益、超额收益及风险与波动。  CAPM模型的主要公式： $$股票收益&#x3D;无风险利率+\beta\cdot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BARRA模型系列1-ChatGPT学习">
+<meta property="og:url" content="https://www.dcquant.top/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="D.C的量化博客">
+<meta property="og:description" content="glmos-code-explain  本系列主要是我和ChatGPT学习BARRA模型的系列解说，本篇为第一期。欢迎持续关注。  一、什么是BARRA模型？为什么需要BARRA？1.1 为啥要多因子？BARRA模型发展的起因是，旧有的CAPM模型（单因子模型）不足以解释股票收益的绝对收益、超额收益及风险与波动。  CAPM模型的主要公式： $$股票收益&#x3D;无风险利率+\beta\cdot">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg">
+<meta property="article:published_time" content="2025-12-08T02:56:02.379Z">
+<meta property="article:modified_time" content="2025-12-08T05:48:13.513Z">
+<meta property="article:author" content="D.C">
+<meta property="article:tag" content="BARRA">
+<meta property="article:tag" content="ChatGPT">
+<meta property="article:tag" content="学习模式">
+<meta property="article:tag" content="风险因子">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "BARRA模型系列1-ChatGPT学习",
+  "url": "https://www.dcquant.top/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/",
+  "image": "https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg",
+  "datePublished": "2025-12-08T02:56:02.379Z",
+  "dateModified": "2025-12-08T05:48:13.513Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "D.C",
+      "url": "https://www.dcquant.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.dcquant.top/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'BARRA模型系列1-ChatGPT学习',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/hexo%E8%83%8C%E6%99%AF%E5%9B%BE.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">D.C的量化博客</span></a><a class="nav-page-title" href="/"><span class="site-name">BARRA模型系列1-ChatGPT学习</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">BARRA模型系列1-ChatGPT学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-08T02:56:02.379Z" title="发表于 2025-12-08 02:56:02">2025-12-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-08T05:48:13.513Z" title="更新于 2025-12-08 05:48:13">2025-12-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ChatGPT%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/">ChatGPT学习模式</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/BARRA%E6%A8%A1%E5%9E%8B/">BARRA模型</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>glmos-code-explain</p>
+<blockquote>
+<p>本系列主要是我和ChatGPT学习BARRA模型的系列解说，本篇为第一期。欢迎持续关注。</p>
+</blockquote>
+<h1 id="一、什么是BARRA模型？为什么需要BARRA？"><a href="#一、什么是BARRA模型？为什么需要BARRA？" class="headerlink" title="一、什么是BARRA模型？为什么需要BARRA？"></a>一、什么是BARRA模型？为什么需要BARRA？</h1><h2 id="1-1-为啥要多因子？"><a href="#1-1-为啥要多因子？" class="headerlink" title="1.1 为啥要多因子？"></a>1.1 为啥要多因子？</h2><p>BARRA模型发展的起因是，旧有的CAPM模型（单因子模型）不足以解释股票收益的绝对收益、超额收益及风险与波动。</p>
+<ul>
+<li><p>CAPM模型的主要公式：</p>
+<p>$$<br>股票收益&#x3D;无风险利率+\beta\cdot市场组合收益<br>$$</p>
+</li>
+<li><p>这样的模型不能解释一些现象，例如：</p>
+<ul>
+<li>小市值股票长期收益更高（规模因子）；</li>
+<li>低估值股票长期收益更高（价值因子）；</li>
+<li>近一段时间涨的多的股票更容易继续涨（动量因子）；</li>
+<li>……</li>
+</ul>
+</li>
+<li><p>于是，与其使用单个因子解释预期收益与风险，不如用一堆因子，这也就是因子库的思想。</p>
+</li>
+</ul>
+<h2 id="1-2-BARRA是什么？"><a href="#1-2-BARRA是什么？" class="headerlink" title="1.2 BARRA是什么？"></a>1.2 BARRA是什么？</h2><p>BARRA是一整套商业化的风险因子体系与模型，大致包括：</p>
+<ul>
+<li>因子库：风格因子，行业因子，国家、地区因子……</li>
+<li>因子暴露数据：每只股票在这些因子上的暴露程度，例如这股票有多么小盘 &#x2F; 价值 &#x2F; 动量……</li>
+<li>协方差&#x2F;风险模型：通过因子协方差矩阵+特质风险，算投资组合的整体风险，投资组合和哪些因子相关……</li>
+</ul>
+<h2 id="1-3-BARRA数学形式"><a href="#1-3-BARRA数学形式" class="headerlink" title="1.3 BARRA数学形式"></a>1.3 BARRA数学形式</h2><p>BARRA主体回归模型用数学公式描述是这样的：</p>
+<p>$$<br>r_i&#x3D;\alpha_i+\sum_{k&#x3D;1}^K{\beta_{i,k}f_k}+\varepsilon_i<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$r_i$：股票i的超额收益；</li>
+<li>$f_k$：第k个因子的收益（如当期“价值因子”涨了多少？）</li>
+<li>$\beta_{i,k}$：股票i在因子k上的暴露；</li>
+<li>$\varepsilon_i$：特质收益（也就是个股独立于风险因子的收益，用因子解释不了的那部分）</li>
+</ul>
+<h2 id="1-4-BARRA的作用"><a href="#1-4-BARRA的作用" class="headerlink" title="1.4 BARRA的作用"></a>1.4 BARRA的作用</h2><p>BARRA的作用主要分为三个部分：</p>
+<ul>
+<li>风险分析：<ul>
+<li>构建的投资组合在各个因子上的暴露有多大？</li>
+<li>总波动率里，有多少来自市场 &#x2F; 风格因子 &#x2F; 个股特质？</li>
+</ul>
+</li>
+<li>组合构建：<ul>
+<li>做风格因子的构建；</li>
+<li>控制行业中性、市值中性；</li>
+<li>总风险不能超过某个水平；</li>
+<li>诸如此类会使用BARRA的因子暴露和协方差矩阵来做优化。</li>
+</ul>
+</li>
+<li>绩效归因：也就是过去一个月策略多赚 &#x2F; 少赚的那部分收益：<ul>
+<li>是因为押对了价值因子？</li>
+<li>还是因为押对了动量因子？</li>
+<li>还是只是因为个股的特质收益？</li>
+<li>……</li>
+</ul>
+</li>
+</ul>
+<h1 id="二、BARRA模型结构与数学部分"><a href="#二、BARRA模型结构与数学部分" class="headerlink" title="二、BARRA模型结构与数学部分"></a>二、BARRA模型结构与数学部分</h1><h2 id="2-1-从CAPM到BARRA"><a href="#2-1-从CAPM到BARRA" class="headerlink" title="2.1 从CAPM到BARRA"></a>2.1 从CAPM到BARRA</h2><p>CAPM的本质是一个单因子线性模型，而BARRA将其推广到了多因子模型：</p>
+<p>$$<br>r_i&#x3D;\alpha_i+\sum_{k&#x3D;1}^K{\beta_{i,k}f_k}+\varepsilon_i<br>$$</p>
+<p>写成向量和矩阵形式是这样的：对N只股票，在某一期t，我们有：</p>
+<p>$$<br>r_t&#x3D;\alpha+B_tf_t+\varepsilon_t<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$r_t$：$N\times1$的股票收益；</li>
+<li>$B_t$：$N\times K$的因子暴露矩阵；</li>
+<li>$f_t$：$K\times1$的因子收益；</li>
+<li>$\varepsilon_t$：$N\times1$的特质收益向量。</li>
+</ul>
+<p>这样的模型结构，实际上是将N只股票的收益分解为基准收益、因子收益与个股特质收益三个部分。基准收益可以理解为无风险收益，因子收益则是由这些因子带来的超额收益，而个股特质收益则是这些因子解释不了的，和个股密切相关的收益。</p>
+<h2 id="2-2-BARRA的核心视角"><a href="#2-2-BARRA的核心视角" class="headerlink" title="2.2 BARRA的核心视角"></a>2.2 BARRA的核心视角</h2><p>传统资产定价里面，经常是有一些因子收益序列（如Fama-French的三因子模型中的多空组合收益作为因子收益序列），去回归每只股票的$\beta$。这样的做法偏向于解释旧有的收益率，但BARRA更偏向于实务，也就是去预测收益率，所以BARRA的做法和这类做法刚好反过来。它的实施步骤是：</p>
+<ol>
+<li><p>先由因子的特征 &#x2F; 分类算出暴露$B_t$：</p>
+<ul>
+<li>这里我们重点讨论风格因子。</li>
+<li>利用不同类型的风格因子，如市值、PB、过去收益率、波动率等因子，做：<ul>
+<li>标准化；</li>
+<li>去极值；</li>
+<li>行业中性化；</li>
+<li>……</li>
+</ul>
+</li>
+<li>得到每个股票对应不同风格因子的风格暴露。这是一个当期的暴露矩阵$B_t$，可理解为“横截面因子库”。</li>
+</ul>
+</li>
+<li><p>在每个时间点t做一次横截面回归：</p>
+<p>$$<br>r_t&#x3D;B_tf_t+\varepsilon_t<br>$$</p>
+<p>其中，$B_t$是用市值等风险因子构建的暴露，而$f_t$则是回归出的收益。</p>
+</li>
+</ol>
+<p>所以，BARRA是使用“已知的暴露+横截面回归”来估计因子收益的框架。</p>
+<h2 id="2-3-BARRA协方差分解"><a href="#2-3-BARRA协方差分解" class="headerlink" title="2.3 BARRA协方差分解"></a>2.3 BARRA协方差分解</h2><p>在BARRA这个风险模型中，最重要的不是分解收益、看收益来源，而是控制风险的模型。假设：</p>
+<ul>
+<li>因子收益$f_t$有协方差矩阵$\Sigma_f$；</li>
+<li>特质收益$\varepsilon_t$之间相互独立（或者近似独立），只有对角协方差矩阵D。</li>
+</ul>
+<p>于是有经典分解：</p>
+<p>$$<br>\Sigma_r&#x3D;Var(r)&#x3D;B\Sigma_fB^T+D<br>$$</p>
+<p>其中：</p>
+<ul>
+<li>$B\Sigma_fB^T$：系统性风格因子导致的风险；</li>
+<li>$D$：对角矩阵，对角元为每只股票特质方差。</li>
+</ul>
+<p>BARRA会用历史的$f_t$序列去估计$\Sigma_f$，用残差序列估计D，加上各种平滑、收缩、稳健处理，得到一个干净、稳定的协方差矩阵。这个协方差矩阵可以：</p>
+<ul>
+<li>算投资组合的波动率、跟踪误差；</li>
+<li>做均值、方差的优化；</li>
+<li>做风险归因等。</li>
+</ul>
+<hr>
+<p>本期的内容大致如上，后一期继续更新：</p>
+<ol>
+<li>BARRA从单只股票到投资组合的迁移过程；</li>
+<li>BARRA的风险因子与普通的Alpha因子的区别。</li>
+</ol>
+<p>以上。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.dcquant.top">D.C</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.dcquant.top/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/">https://www.dcquant.top/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.dcquant.top" target="_blank">D.C的量化博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/BARRA/">BARRA</a><a class="post-meta__tags" href="/tags/ChatGPT/">ChatGPT</a><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/">学习模式</a><a class="post-meta__tags" href="/tags/%E9%A3%8E%E9%99%A9%E5%9B%A0%E5%AD%90/">风险因子</a></div><div class="post-share"><div class="social-share" data-image="/img/hexo%E5%A4%B4%E5%83%8F.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/" title="Alpha因子库精简与优化-东方证券研报"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Alpha因子库精简与优化-东方证券研报</div></div><div class="info-2"><div class="info-item-1">glmos-code-explain&gt; 研报学习系列中，我将摘选出我认为比较有用的一些文字和问题，并会针对其中部分内容在之后的文章中给出解释和答案。欢迎持续关注。 一、引言1.1 引言量化选股模型可以分为Alpha模型、风险模型与组合优化三个部分，其中：  Alpha模型对组合收益起决定性作用； 风险模型负责控制风险、稳定收益； 组合优化负责精确控制，使得组合满足换手率、跟踪误差等投资限制。  由于Alpha的重要性，机构投资者的大部分研究精力主要集中于Alpha模型这一块。而目前，市场上做Alpha模型主要有两个方向：  精英型： 寻找IC高、IR稳定、表现优秀的“精英”因子，用少量的这些因子来构建组合； 群众型： 建造一个大型Alpha因子库，单个Alpha的表现可能不是非常出众，但它能贡献独立的Alpha信息源，有助于稳定收益。  后者更符合分散风险的量化投资基本原理，但大型Alpha因子库在提供多样Alpha源的同时，也带来大量无效和重复信息。若信息汇总处理不当，会使得不同Alpha源被人为的放大或缩小权重，最终影响组合表现。另外，面对一个大型Alpha因子库，投资...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/hexo%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">D.C</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">3</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">9</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFBARRA%E6%A8%A1%E5%9E%8B%EF%BC%9F%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81BARRA%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">一、什么是BARRA模型？为什么需要BARRA？</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E4%B8%BA%E5%95%A5%E8%A6%81%E5%A4%9A%E5%9B%A0%E5%AD%90%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 为啥要多因子？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-BARRA%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 BARRA是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-BARRA%E6%95%B0%E5%AD%A6%E5%BD%A2%E5%BC%8F"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 BARRA数学形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-4-BARRA%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.4.</span> <span class="toc-text">1.4 BARRA的作用</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81BARRA%E6%A8%A1%E5%9E%8B%E7%BB%93%E6%9E%84%E4%B8%8E%E6%95%B0%E5%AD%A6%E9%83%A8%E5%88%86"><span class="toc-number">2.</span> <span class="toc-text">二、BARRA模型结构与数学部分</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E4%BB%8ECAPM%E5%88%B0BARRA"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 从CAPM到BARRA</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-BARRA%E7%9A%84%E6%A0%B8%E5%BF%83%E8%A7%86%E8%A7%92"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 BARRA的核心视角</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-BARRA%E5%8D%8F%E6%96%B9%E5%B7%AE%E5%88%86%E8%A7%A3"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 BARRA协方差分解</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/" title="BARRA模型系列1-ChatGPT学习">BARRA模型系列1-ChatGPT学习</a><time datetime="2025-12-08T02:56:02.379Z" title="发表于 2025-12-08 02:56:02">2025-12-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/" title="Alpha因子库精简与优化-东方证券研报">Alpha因子库精简与优化-东方证券研报</a><time datetime="2025-12-07T13:23:29.576Z" title="发表于 2025-12-07 13:23:29">2025-12-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/07/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" title="测试文章">测试文章</a><time datetime="2025-12-07T12:50:57.043Z" title="发表于 2025-12-07 12:50:57">2025-12-07</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By D.C</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="/"></script></div></body></html>
