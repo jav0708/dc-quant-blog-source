@@ -2,13 +2,14 @@
 abbrlink: ''
 categories:
 - - 量化评价指标系列
+- - ChatGPT学习模式
 date: '2025-12-08T15:25:04.009287+08:00'
 tags:
 - ChatGPT
 - 学习模式
 - 评价指标
 title: 量化评价指标系列1-ChatGPT学习
-updated: '2025-12-08T15:25:05.114+08:00'
+updated: '2025-12-08T17:08:17.641+08:00'
 ---
 glmos-code-explain
 
