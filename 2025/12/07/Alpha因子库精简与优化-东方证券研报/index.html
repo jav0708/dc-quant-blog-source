@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Alpha因子库精简与优化-东方证券研报 | D.C的量化博客</title><meta name="author" content="D.C"><meta name="copyright" content="D.C"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="glmos-code-explain&gt; 研报学习系列中，我将摘选出我认为比较有用的一些文字和问题，并会针对其中部分内容在之后的文章中给出解释和答案。欢迎持续关注。 一、引言1.1 引言量化选股模型可以分为Alpha模型、风险模型与组合优化三个部分，其中：  Alpha模型对组合收益起决定性作用； 风险模型负责控制风险、稳定收益； 组合优化负责精确控制，使得组合满足换手率、跟踪误差等投资限制。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Alpha因子库精简与优化-东方证券研报">
+<meta property="og:url" content="https://www.dcquant.top/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/index.html">
+<meta property="og:site_name" content="D.C的量化博客">
+<meta property="og:description" content="glmos-code-explain&gt; 研报学习系列中，我将摘选出我认为比较有用的一些文字和问题，并会针对其中部分内容在之后的文章中给出解释和答案。欢迎持续关注。 一、引言1.1 引言量化选股模型可以分为Alpha模型、风险模型与组合优化三个部分，其中：  Alpha模型对组合收益起决定性作用； 风险模型负责控制风险、稳定收益； 组合优化负责精确控制，使得组合满足换手率、跟踪误差等投资限制。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg">
+<meta property="article:published_time" content="2025-12-07T13:23:29.576Z">
+<meta property="article:modified_time" content="2025-12-08T02:00:53.168Z">
+<meta property="article:author" content="D.C">
+<meta property="article:tag" content="Alpha优化">
+<meta property="article:tag" content="Alpha库">
+<meta property="article:tag" content="Alpha精简">
+<meta property="article:tag" content="东方证券">
+<meta property="article:tag" content="研报学习">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Alpha因子库精简与优化-东方证券研报",
+  "url": "https://www.dcquant.top/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/",
+  "image": "https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg",
+  "datePublished": "2025-12-07T13:23:29.576Z",
+  "dateModified": "2025-12-08T02:00:53.168Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "D.C",
+      "url": "https://www.dcquant.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.dcquant.top/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Alpha因子库精简与优化-东方证券研报',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/hexo%E8%83%8C%E6%99%AF%E5%9B%BE.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">D.C的量化博客</span></a><a class="nav-page-title" href="/"><span class="site-name">Alpha因子库精简与优化-东方证券研报</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">Alpha因子库精简与优化-东方证券研报</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-07T13:23:29.576Z" title="发表于 2025-12-07 13:23:29">2025-12-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-08T02:00:53.168Z" title="更新于 2025-12-08 02:00:53">2025-12-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%A0%94%E6%8A%A5%E5%AD%A6%E4%B9%A0/">研报学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>glmos-code-explain&gt; 研报学习系列中，我将摘选出我认为比较有用的一些文字和问题，并会针对其中部分内容在之后的文章中给出解释和答案。欢迎持续关注。</p>
+<h1 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h1><h2 id="1-1-引言"><a href="#1-1-引言" class="headerlink" title="1.1 引言"></a>1.1 引言</h2><p><strong>量化选股模型可以分为Alpha模型、风险模型与组合优化三个部分</strong>，其中：</p>
+<ul>
+<li><strong>Alpha模型对组合收益起决定性作用</strong>；</li>
+<li><strong>风险模型负责控制风险、稳定收益</strong>；</li>
+<li><strong>组合优化负责精确控制，使得组合满足换手率、跟踪误差等投资限制</strong>。</li>
+</ul>
+<p>由于Alpha的重要性，机构投资者的大部分研究精力主要集中于Alpha模型这一块。而目前，市场上做Alpha模型主要有两个方向：</p>
+<ol>
+<li><strong>精英型：</strong> 寻找IC高、IR稳定、表现优秀的“精英”因子，用少量的这些因子来构建组合；</li>
+<li><strong>群众型：</strong> 建造一个大型Alpha因子库，单个Alpha的表现可能不是非常出众，但它能贡献独立的Alpha信息源，有助于稳定收益。</li>
+</ol>
+<p>后者更符合分散风险的量化投资基本原理，但大型Alpha因子库在提供多样Alpha源的同时，<strong>也带来大量无效和重复信息</strong>。若信息汇总处理不当，会使得不同Alpha源被人为的放大或缩小权重，最终影响组合表现。另外，面对一个大型Alpha因子库，投资者在找到一个新的Alpha因子时，<strong>有必要思考这个因子是否提供了新的Alpha源或只是把现有的Alpha因子库的因子信息进行了切分重组</strong>。</p>
+<h2 id="1-2-报告贡献"><a href="#1-2-报告贡献" class="headerlink" title="1.2 报告贡献"></a>1.2 报告贡献</h2><p>本报告将提供一些统计检验和优化工具来解决这些问题，也即：</p>
+<ul>
+<li><strong>如何处理无效和重复信息？</strong></li>
+<li><strong>新的Alpha因子是否真的很“新”？</strong></li>
+</ul>
+<h1 id="二、资产定价理论基础与实证检验"><a href="#二、资产定价理论基础与实证检验" class="headerlink" title="二、资产定价理论基础与实证检验"></a>二、资产定价理论基础与实证检验</h1><h2 id="2-1-CAPM与APT"><a href="#2-1-CAPM与APT" class="headerlink" title="2.1 CAPM与APT"></a>2.1 CAPM与APT</h2><h3 id="2-1-1-CAPM"><a href="#2-1-1-CAPM" class="headerlink" title="2.1.1 CAPM"></a>2.1.1 CAPM</h3><p>由于模型假设太多而且过强，已经有非常多的实证研究发现 CAPM 在真实市场中并不成立；但CAPM理论的基本思想仍对当下研究有很大借鉴意义。</p>
+<p><strong>CAPM的核心假设有三条：</strong></p>
+<ol>
+<li>投资者基于Mean-Variance效用函数来构造组合，即在达到预期收益的限制条件下，让组合收益的方差最小；</li>
+<li>市场处于均衡状态，即所有投资者基于Mean-Variance构造组合产生的对某资产的需求总和等于该资产的总供给，也就是该资产的市值；</li>
+<li>市场存在无风险资产，可以任意买卖。</li>
+</ol>
+<h3 id="2-1-2-APT"><a href="#2-1-2-APT" class="headerlink" title="2.1.2 APT"></a>2.1.2 APT</h3><p><strong>APT（Arbitrage Pricing Theory）的模型假设相对于CAPM要弱很多，其中核心假设有两条：</strong></p>
+<ol>
+<li><p>市场上不存在无风险套利机会（或者渐进套利机会）</p>
+</li>
+<li><p>风险资产的收益率由$K$个风险因素$F_1,F_2,\cdots,F_K$线性决定，即风险资产$i$的收益率可以表示为</p>
+<p>$$<br>R_i&#x3D;a_i+b_{i,1}F_1+b_{i,2}F_2+\cdots+b_{i,K}F_K+\varepsilon_i\tag{2.1}<br>$$</p>
+<p>其中$E(\varepsilon_i)&#x3D;0,E(\varepsilon_i\varepsilon_j)&#x3D;0,E(F_K)&#x3D;0,E(\varepsilon_iF_k)&#x3D;0,E(F_kF_l)&#x3D;0,1\le i,j\le N,1\le k,l\le K$</p>
+</li>
+</ol>
+<p>量化实务中，不论是P-quant还是Q-quant，大多采用的是APT框架。</p>
+<h2 id="2-2-定价因子检验"><a href="#2-2-定价因子检验" class="headerlink" title="2.2 定价因子检验"></a>2.2 定价因子检验</h2><h3 id="2-2-1-因子动物园（Factor-Zoo）"><a href="#2-2-1-因子动物园（Factor-Zoo）" class="headerlink" title="2.2.1 因子动物园（Factor Zoo）"></a>2.2.1 因子动物园（Factor Zoo）</h3><p>运用 APT 的第一步是找到影响股价的因子，寻找的方法主要是基于市场实际观测到的价格差异现象和投资者使用的投资逻辑。<strong>这类研究中最有影响力的莫过于 Fama&amp;French（1993）提出的三因子模型</strong>，在 CAPM 市场因子的基础上增加了市值因子和 PB 估值因子，并构造了 SMB 和 HML两个多空组合，把两个组合的月度收益率用作市值因子和 PB 因子风险溢价的观测值，最后得到结论“股票价格的大部分波动都可以由市场、市值和估值三个因子解释”。</p>
+<p><strong>在理解Fama&amp;French结论的时候，必须注意以下两点</strong>：</p>
+<ul>
+<li><strong>因子对股价时间序列变化和横截面差异的解释程度不一样</strong>，Fama&amp;French三因子时间序列上的方差解释度超过90%，但横截面上的解释度大概在75%左右。</li>
+<li>**Fama&amp;French的结论并非针对个股股价波动。**如果用个股的收益率作为因变量进行回归，EIV问题将十分明显。因此Fama&amp;French用的是市值因子和PB估值因子做5 x 5交叉划分得到的25个组合的月收益率作为因变量进行回归，三因子解释的是这个25个股票组合的价格变动。</li>
+</ul>
+<p>继该开创性工作后，理论和学术界开始了大规模的新因子寻猎，但后来随着寻猎的不断深入，有很多定价因子被挖掘了出来。<strong>那么，“到底有多少因子真正提供了新的信息源？”“有多少只是现有信息的切分组合？”“有多少是数据挖掘的结果？”这是目前资产定价理论界的研究热点。</strong></p>
+<h3 id="2-2-2-风险溢价与风险暴露"><a href="#2-2-2-风险溢价与风险暴露" class="headerlink" title="2.2.2 风险溢价与风险暴露"></a>2.2.2 风险溢价与风险暴露</h3><p>在确定要考察的定价因子后，要到现实金融市场中去找数据来验证因子有效性，风险溢价或风险暴露必须有一个有对应的观察值。</p>
+<ul>
+<li><strong>学术研究的做法是从风险溢价出发</strong>，利用收益率作为该因子风险溢价的观察值；</li>
+<li><strong>实务界的做法（如BARRA）更多是从因子暴露出发</strong>，用因子数值的标准化得分作为因子暴露的观察值。</li>
+</ul>
+<p>学术界和实务界的做法对比来看，从风险溢价出发需要知道与个股收益率同期的因子风险溢价，但真实投资中无法知道未来的因子风险溢价，<strong>因此学术界的做法偏向于“解释”收益率</strong>；而实务界做法里，个股收益率是和期初的因子暴露对应的，<strong>带有“预测”收益率的性质，实用性更强</strong>。</p>
+<h3 id="2-2-3-Fama-MacBeth检验"><a href="#2-2-3-Fama-MacBeth检验" class="headerlink" title="2.2.3 Fama-MacBeth检验"></a>2.2.3 Fama-MacBeth检验</h3><p>该检验方法由Fama &amp; MacBeth提出，是一种截面回归检验方法。如果从风险溢价出发，这个检验其实是一个两步的过程：</p>
+<ol>
+<li>对每个资产做时间序列回归，计算各个资产的因子暴露估计量$\hat{b}_{i,k}$；</li>
+<li>在每个横截面上用当期的资产收益率对期初的因子暴露估计量做横截面回归，得到风险溢价的估计$\hat{\lambda}_{k,t}$</li>
+</ol>
+<p>对于因子k，对序列$\hat{\lambda}_{k,t}$做传统t检验，如果该因子有效，序列的均值应该显著不等于0.如果是从风险暴露出发，则可免去第一步，直接从第二步开始。</p>
+<h2 id="2-3-Alpha因子与风险因子"><a href="#2-3-Alpha因子与风险因子" class="headerlink" title="2.3 Alpha因子与风险因子"></a>2.3 Alpha因子与风险因子</h2><p>在本节中，我们区分三个概念：<strong>定价因子（Priced-in Factor），Alpha因子与风险因子（Risk factor）</strong>。定价因子即通过上述统计检验，对股价有显著影响的因子。</p>
+<p>t检验统计量的分子是风险溢价的样本均值，分母是风险溢价的标准差除以样本数量的平方根。<strong>因此一个显著的定价因子可能会出现以下四种情形</strong>：</p>
+<ol>
+<li><strong>风险溢价均值绝对值低且风险溢价方差低：此类称之为低效因子</strong>，此类因子的风险溢价均值和方差都很小，在投资中实用价值不大；</li>
+<li><strong>风险溢价均值绝对值高且风险溢价方差低：此类称之为Alpha因子</strong>，这种因子的风险溢价均值的绝对值很大，方差很小，说明用这个因子来做选股可以获得显著而且稳定的超额收益；</li>
+<li><strong>风险溢价均值绝对值低且风险溢价方差高：此类称之为风险因子</strong>。风险因子的风险溢价均值的绝对值很小，甚至接近于零，用这个因子来做选股长期来看没有明显超额收益；但同时，由于它是一个显著定价因子，说明它对股价有影响；由于风险溢价的方差很大，因此在构建组合时，应该尽量剔除此类因子的影响来获得稳定收益；</li>
+<li><strong>风险溢价均值绝对值高且风险溢价方差高：此类是Alpha因子且是风险因子</strong>。拿这类因子做alpha还是风险因子，取决于投资者的选择。例如市值因子属于此类，但由于政策变化可能会导致此类因子失效，所以为了防止这类风险，报告中将其作为风险因子。</li>
+</ol>
+<h1 id="三、因子筛选与Alpha优化"><a href="#三、因子筛选与Alpha优化" class="headerlink" title="三、因子筛选与Alpha优化"></a>三、因子筛选与Alpha优化</h1><h2 id="3-1-因子筛选流程"><a href="#3-1-因子筛选流程" class="headerlink" title="3.1 因子筛选流程"></a>3.1 因子筛选流程</h2><p>Alpha 因子通过单因子的有效性检验后，下一步便是把这些 alpha 因子含有的信息进行汇总合成；对于大型的 alpha 因子库，此时投资者可能会面临大量重复无效的信息。</p>
+<p><strong>我们这里参考Fama-MacBeth 检验流程，设计了一套因子筛选方法，可以剔除信息重复的因子。</strong></p>
+<p><strong>具体流程如下</strong>：</p>
+<p>假设总共有K个备选的alpha因子$F_1,F_2,\cdots,F_K$，我们已经从中筛选出了s个因子$F_{i_1},F_{i_2},\cdots,F_{i_s}$（初始时$s&#x3D;0$），那么第$s+1$次时的筛选流程如下：</p>
+<ol>
+<li>对于剩余备选的 alpha 因子，每个因子每个月都对$F_{i_1},F_{i_2},\cdots,F_{i_s}$做多元回归，计算残差项（$s&#x3D;0$的时候不用做这一步）。记得到的K-s个残差项因子分别为$\theta_1,\theta_2,\cdots,\theta_{K-s}$；</li>
+<li>分别把$\theta_j,j&#x3D;1,2,\cdots,K-s$和$F_{i_1},F_{i_2},\cdots,F_{i_s}$一起做自变量，做Fama-MacBeth回归，记录$\theta_j$系数的显著性，和每个月横截面回归的$adjusted-R^2$的平均值；</li>
+<li>把系数不显著的因子剔除出备选Alpha因子库；</li>
+<li>选取系数显著的且平均$adjusted-R^2$最大的因子，假设为$\theta_h$，则把该因子作为第s+1次筛选出的因子$F_{i_{s+1}}&#x3D;\theta_h$，进入第s+2次筛选；</li>
+<li>如果所有因子的系数都不显著，则停止筛选过程。</li>
+</ol>
+<p>这样做的好处在于：</p>
+<ul>
+<li>每个横截面上备选因子对已筛选出因子做回归取残差项的方式可以让我们<strong>考察备选因子的“新增信息”</strong>；</li>
+<li>由于残差项和自变量呈现正交特性，这样做也<strong>避免了共线性对 Fama-MacBeth 回归里回归系数显著性的影响。</strong></li>
+</ul>
+<h2 id="3-2-Alpha优化流程"><a href="#3-2-Alpha优化流程" class="headerlink" title="3.2 Alpha优化流程"></a>3.2 Alpha优化流程</h2><p>经过因子筛选，剔除不能贡献独立 alpha 来源的因子后，下一步是要给各个 alpha 因子赋予权重，把单个 alpha 因子的 zscore 加总成一个 zscore。</p>
+<ul>
+<li><p>传统方法是做等权处理；</p>
+<ul>
+<li>这显然忽视了 alpha因子之间的相关性，使得因子的权重被人为的放缩。</li>
+</ul>
+</li>
+<li><p>一种改进的方法是复合因子方法，先把同一类别的因子合成一个因子（例如：把 PE、PB 合成一个估值因子），再把这些复合因子进行等权加总；</p>
+<ul>
+<li>这样做可以降低但不能消除因子间相关性的影响；</li>
+<li>在合成复合因子过程中，基本面因子的逻辑比较清晰，比较好归类，但技术面因子的逻辑差别较大，很难分类。</li>
+<li>如果强行把所有技术面因子归为一类的话，会降低技术面因子的权重，而 A 股目前的现状是技术面因子表现整体强于基本面因子，因此这样做会降低模型表现。</li>
+</ul>
+</li>
+<li><p>我们这里采取的是 Qian(2007)的做法，这种方法能较好解决因子间的相关性问题</p>
+<ul>
+<li>他先证明股票组合收益取决于加总因子的 IC，要获得稳定收益就需要加总因子的 IC 足够稳定</li>
+<li>因此他采取最大化复合因子 IC_IR 的方式来获得各个 alpha 因子的权重。</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-3-协方差矩阵估计"><a href="#3-3-协方差矩阵估计" class="headerlink" title="3.3 协方差矩阵估计"></a>3.3 协方差矩阵估计</h2><p>Qian(2007)的方法理论上可以很好解决 alpha 因子间的相关性问题，但是实际运用中我们需要去估算 alpha 因子间的协方差矩阵。</p>
+<ul>
+<li><p>最常用的估计量是样本协方差矩阵$\hat{\Sigma}_{IC}$，它是一个无偏估计量，而且在正态假设下还是极大似然估计；</p>
+<ul>
+<li>但样本协方差矩阵估计量的方差较大；</li>
+<li>如果因子数量较多，超过时间样本数量（K&gt;T），样本协方差矩阵将变得不可逆，也就无法估计最优参数。</li>
+<li>即使因子数量较少，或者事件样本较长（K&lt;T），样本协方差矩阵可逆，代入上式计算因子权重也会有问题：<ul>
+<li><p>因为我们计算的时候用到的是样本协方差矩阵的逆$\hat{\Sigma}_{IC}^{-1}$；</p>
+</li>
+<li><p>样本协方差矩阵是协方差矩阵的无偏估计，但样本协方差矩阵的逆并不是协方差矩阵逆的无偏估计；</p>
+</li>
+<li><p>在正态分布假设下可以证明：</p>
+<p>$$<br>E(\hat{\Sigma}_{IC}^{-1})&#x3D;\frac{T}{T-K-2}\Sigma^{-1}<br>$$</p>
+<p>也就是说，如果 T 和 K 的大小比较接近，样本协方差矩阵逆的估计偏差将非常之大;</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>本文采用的是 Ledoit(2004) 提出的压缩估计量方法，该方法我们之前在做股票组合优化时也有使用过。</p>
+<ul>
+<li><p>它的基本思想是用一个方差小但偏差大的协方差矩阵估计量$\hat{\Phi}$作为目标估计量，和样本协方差矩阵做一个调和，牺牲部分偏差来获得更稳健的估计量，用数学式可以表示为</p>
+<p>$$<br>\hat{\Sigma}<em>{shrink}&#x3D;\lambda\Phi+(1-\lambda)\cdot\hat{\Sigma}</em>{IC}<br>$$</p>
+</li>
+<li><p>参数$\lambda$通过最小化估计量的二次偏差得到；</p>
+</li>
+<li><p>目标估计量$\hat{\Phi}$的选择上，有三种形式：</p>
+<ul>
+<li>单参数形式，可以表示为方差乘以一个单位矩阵；</li>
+<li>CAPM 单因子结构化模型估计；</li>
+<li>平均相关系数形式。</li>
+</ul>
+</li>
+<li><p>其中第二种形式只适用于股票，第一种形式过于简单，需要牺牲较大的估计偏差，因此这里采用第三种形式作为压缩目标估计量。</p>
+</li>
+</ul>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.dcquant.top">D.C</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.dcquant.top/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/">https://www.dcquant.top/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.dcquant.top" target="_blank">D.C的量化博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/Alpha%E5%BA%93/">Alpha库</a><a class="post-meta__tags" href="/tags/Alpha%E4%BC%98%E5%8C%96/">Alpha优化</a><a class="post-meta__tags" href="/tags/Alpha%E7%B2%BE%E7%AE%80/">Alpha精简</a><a class="post-meta__tags" href="/tags/%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8/">东方证券</a><a class="post-meta__tags" href="/tags/%E7%A0%94%E6%8A%A5%E5%AD%A6%E4%B9%A0/">研报学习</a></div><div class="post-share"><div class="social-share" data-image="/img/hexo%E5%A4%B4%E5%83%8F.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/12/07/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" title="测试文章"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">测试文章</div></div><div class="info-2"><div class="info-item-1">111 111 </div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/hexo%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">D.C</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">5</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">一、引言</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E5%BC%95%E8%A8%80"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E6%8A%A5%E5%91%8A%E8%B4%A1%E7%8C%AE"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 报告贡献</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E8%B5%84%E4%BA%A7%E5%AE%9A%E4%BB%B7%E7%90%86%E8%AE%BA%E5%9F%BA%E7%A1%80%E4%B8%8E%E5%AE%9E%E8%AF%81%E6%A3%80%E9%AA%8C"><span class="toc-number">2.</span> <span class="toc-text">二、资产定价理论基础与实证检验</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-CAPM%E4%B8%8EAPT"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 CAPM与APT</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-1-CAPM"><span class="toc-number">2.1.1.</span> <span class="toc-text">2.1.1 CAPM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-2-APT"><span class="toc-number">2.1.2.</span> <span class="toc-text">2.1.2 APT</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E5%AE%9A%E4%BB%B7%E5%9B%A0%E5%AD%90%E6%A3%80%E9%AA%8C"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 定价因子检验</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-1-%E5%9B%A0%E5%AD%90%E5%8A%A8%E7%89%A9%E5%9B%AD%EF%BC%88Factor-Zoo%EF%BC%89"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.2.1 因子动物园（Factor Zoo）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-2-%E9%A3%8E%E9%99%A9%E6%BA%A2%E4%BB%B7%E4%B8%8E%E9%A3%8E%E9%99%A9%E6%9A%B4%E9%9C%B2"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2.2 风险溢价与风险暴露</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-3-Fama-MacBeth%E6%A3%80%E9%AA%8C"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.2.3 Fama-MacBeth检验</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-Alpha%E5%9B%A0%E5%AD%90%E4%B8%8E%E9%A3%8E%E9%99%A9%E5%9B%A0%E5%AD%90"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 Alpha因子与风险因子</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E5%9B%A0%E5%AD%90%E7%AD%9B%E9%80%89%E4%B8%8EAlpha%E4%BC%98%E5%8C%96"><span class="toc-number">3.</span> <span class="toc-text">三、因子筛选与Alpha优化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E5%9B%A0%E5%AD%90%E7%AD%9B%E9%80%89%E6%B5%81%E7%A8%8B"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 因子筛选流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-Alpha%E4%BC%98%E5%8C%96%E6%B5%81%E7%A8%8B"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 Alpha优化流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E5%8D%8F%E6%96%B9%E5%B7%AE%E7%9F%A9%E9%98%B5%E4%BC%B0%E8%AE%A1"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 协方差矩阵估计</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/" title="Alpha因子库精简与优化-东方证券研报">Alpha因子库精简与优化-东方证券研报</a><time datetime="2025-12-07T13:23:29.576Z" title="发表于 2025-12-07 13:23:29">2025-12-07</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/07/%E6%B5%8B%E8%AF%95%E6%96%87%E7%AB%A0/" title="测试文章">测试文章</a><time datetime="2025-12-07T12:50:57.043Z" title="发表于 2025-12-07 12:50:57">2025-12-07</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By D.C</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="/"></script></div></body></html>
