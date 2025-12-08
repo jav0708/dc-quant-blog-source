@@ -1,0 +1,340 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>量化评价指标系列1-ChatGPT学习 | D.C的量化博客</title><meta name="author" content="D.C"><meta name="copyright" content="D.C"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="glmos-code-explain  这系列的文章主要为了整理和汇总所有主流的评价量化策略和因子的指标。欢迎持续关注。  一、策略评价指标总览1.1 铺垫评价量化策略，其实可以从不同角度进行评价；就像人的多维性一样，策略也具有多维性，单一的策略评价指标是不足以评价一个策略的。虽然我知道有些老板刚接触量化，但实际上，光看年化收益回撤比这一个指标去评价一个策略是远远不够的。 可能年化收益回撤比从0.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="量化评价指标系列1-ChatGPT学习">
+<meta property="og:url" content="https://www.dcquant.top/2025/12/08/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:site_name" content="D.C的量化博客">
+<meta property="og:description" content="glmos-code-explain  这系列的文章主要为了整理和汇总所有主流的评价量化策略和因子的指标。欢迎持续关注。  一、策略评价指标总览1.1 铺垫评价量化策略，其实可以从不同角度进行评价；就像人的多维性一样，策略也具有多维性，单一的策略评价指标是不足以评价一个策略的。虽然我知道有些老板刚接触量化，但实际上，光看年化收益回撤比这一个指标去评价一个策略是远远不够的。 可能年化收益回撤比从0.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg">
+<meta property="article:published_time" content="2025-12-08T07:25:04.009Z">
+<meta property="article:modified_time" content="2025-12-08T07:25:05.114Z">
+<meta property="article:author" content="D.C">
+<meta property="article:tag" content="ChatGPT">
+<meta property="article:tag" content="学习模式">
+<meta property="article:tag" content="评价指标">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "量化评价指标系列1-ChatGPT学习",
+  "url": "https://www.dcquant.top/2025/12/08/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/",
+  "image": "https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg",
+  "datePublished": "2025-12-08T07:25:04.009Z",
+  "dateModified": "2025-12-08T07:25:05.114Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "D.C",
+      "url": "https://www.dcquant.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.dcquant.top/2025/12/08/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '量化评价指标系列1-ChatGPT学习',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/hexo%E8%83%8C%E6%99%AF%E5%9B%BE.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">D.C的量化博客</span></a><a class="nav-page-title" href="/"><span class="site-name">量化评价指标系列1-ChatGPT学习</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"></div></nav><div id="post-info"><h1 class="post-title">量化评价指标系列1-ChatGPT学习</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-08T07:25:04.009Z" title="发表于 2025-12-08 07:25:04">2025-12-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-08T07:25:05.114Z" title="更新于 2025-12-08 07:25:05">2025-12-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%97/">量化评价指标系列</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><p>glmos-code-explain</p>
+<blockquote>
+<p>这系列的文章主要为了整理和汇总所有主流的评价量化策略和因子的指标。欢迎持续关注。</p>
+</blockquote>
+<h1 id="一、策略评价指标总览"><a href="#一、策略评价指标总览" class="headerlink" title="一、策略评价指标总览"></a>一、策略评价指标总览</h1><h2 id="1-1-铺垫"><a href="#1-1-铺垫" class="headerlink" title="1.1 铺垫"></a>1.1 铺垫</h2><p>评价量化策略，其实可以从不同角度进行评价；就像人的多维性一样，策略也具有多维性，<strong>单一的策略评价指标是不足以评价一个策略的</strong>。虽然我知道有些老板刚接触量化，但实际上，<strong>光看年化收益回撤比这一个指标去评价一个策略是远远不够的</strong>。</p>
+<p>可能年化收益回撤比从0.2提高到1是一个很大的提升，那2提高到3呢？3提高到4呢？策略的质量一定是提高了吗？那么给我感觉，**后者的提升就确实看不出来明显区别了；甚至如果这个年化收益回撤比达到了10，20，老板们还敢用吗？**这里面会不会有未来函数的风险？</p>
+<p>那既然单纯看数字看不出来什么，我们就要想办法跳出单一评价指标的想法，用多维度的视角去看待我们有的每一个策略。同时，<strong>如果从多维度的角度看来</strong>，比如我们知道了这个策略的容量、知道了这个策略的收益率、知道了这个策略在什么样的行情下赚钱多，什么样的行情下赚钱少等等，<strong>我们就可以更好的使用策略甚至让策略按照某些合适的方式轮动起来了</strong>。</p>
+<h2 id="1-2-策略评价的五个维度"><a href="#1-2-策略评价的五个维度" class="headerlink" title="1.2 策略评价的五个维度"></a>1.2 策略评价的五个维度</h2><p>前情铺垫完毕，接下来我们揭晓：<em><strong>策略的评价可以从哪些维度进行评价？</strong></em> 我认为可以分为五类：</p>
+<ul>
+<li><strong>总体收益水准</strong></li>
+<li><strong>总体风险大小</strong></li>
+<li><strong>风险调整收益</strong></li>
+<li><strong>交易执行与可实施性</strong></li>
+<li><strong>稳健性 &#x2F; 鲁棒性</strong></li>
+</ul>
+<p>这五类分别是什么作用？为什么要用这五类评价指标？这五类分别解决了什么样的问题，能带我们了解策略的哪些内容和方面？下面一一介绍：</p>
+<ul>
+<li><strong>收益类</strong>：可以理解为“<strong>策略本身绝对的赚了多少？</strong>”，又或者“<strong>策略相对于指数多赚了多少？</strong>”</li>
+<li><strong>风险类</strong>：可以理解为“<strong>策略本身有多少波动？</strong>”，或者“<strong>策略每次从最高峰到最低谷，最多摔下去多少？用了多久爬出来的？</strong>”</li>
+<li><strong>风险调整收益</strong>：主要回答的问题是“<strong>每一单位风险我能赚多少收益？</strong>”，因为<strong>只看收益不看风险是不全面的</strong>，因此我们采用<strong>比率</strong>的方式兼顾二者。</li>
+<li><strong>交易执行&amp;可实施性</strong>：回测再好，现实中也要落地。这一块主要回答的问题是：“<strong>策略能不能真下单，能不能吃得下资金？</strong>”</li>
+<li><strong>稳健型 &#x2F; 鲁棒性</strong>：这一块主要是为了<strong>防止过拟合或者策略只适合某一段行情</strong>，从而带我们更全面深入的了解这策略是因为“<strong>模型真有用</strong>”，还是因为“<strong>只是在数据上表现的好</strong>”，还是因为“<strong>正好行情来了，适合这个策略</strong>”。</li>
+</ul>
+<h2 id="1-3-叙述流程"><a href="#1-3-叙述流程" class="headerlink" title="1.3 叙述流程"></a>1.3 叙述流程</h2><p>到此，我们先针对目前主流的评价指标进行了一些概述。<strong>但我并不打算使用顺序讲解的方式进行讲解，我觉得可能会有点死板，并且看完之后，可能只是对指标本身有了一些理解，但对于怎么用，还是没有太多想法。</strong></p>
+<p>因此我采用的方式是<strong>评价的由易到难</strong>，先从最简单的<strong>年化收益率、最大回撤、夏普比率</strong>看起；之后针对<strong>夏普比率进行一些调整</strong>，我们把夏普比率<strong>换成一系列比率</strong>，看看会发生什么；最后针对这个<strong>模板之外的一些内容</strong>进行讲解。</p>
+<p>下面请看最简单的那个模板，也是我们较为熟悉的<strong>年化收益率、最大回撤、夏普比率</strong>。</p>
+<h1 id="二、梦开始的地方"><a href="#二、梦开始的地方" class="headerlink" title="二、梦开始的地方"></a>二、梦开始的地方</h1><p>其实，我在策略构建这一块，最先接触的也就是年化收益、最大回撤、年化收益回撤比这三个指标。但GPT推荐我先看看夏普比率，现在想想，有道理。因为<strong>夏普比率其实才是量化中最常用来评价一个策略单位波动对应收益的指标</strong>，而年化收益回撤比反而会弱一些，因为<strong>它在风险中只关注了最大回撤</strong>。</p>
+<p>下面我们先顺序讲解这三个指标。</p>
+<h2 id="2-1-年化收益率（CAGR）"><a href="#2-1-年化收益率（CAGR）" class="headerlink" title="2.1 年化收益率（CAGR）"></a>2.1 年化收益率（CAGR）</h2><p>年化收益率相信大家再熟悉不过了，其实相比于年化收益回撤比，我们更早关注到的肯定是收益的高低程度。在一开始对策略没有太多认知的时候，我们一眼就会看中“我每年能用这个策略赚多少收益率？”这个问题。</p>
+<p>这个指标的核心恰恰反映了这个问题，<strong>但不是以后我能赚多少收益率，而是“在过去，如果我坚持使用这个策略，我能每年用这个策略在我本金的基础上赚多少收益率？”</strong></p>
+<p><em><strong>这两个概念或者说问题，是有本质区别的！！</strong></em></p>
+<p>首先说，这个指标的计算方式很简单，假设我回测了Y年，那么这个指标就是用累积净值开Y分之一次方-1得到的，也就是：</p>
+<p>$$<br>CAGR&#x3D;(NV)^{1&#x2F;Y}-1<br>$$</p>
+<p>其中NV是累积净值。从直觉上讲，如果一个策略用三年的时间从净值为1涨到了1.33，那么CAGR就约等于10%，可以直观理解为“每年赚10%，连续三年”。</p>
+<p>但这一方面，是我回测区间内<strong>每一年的平均情况</strong>，这个指标实际上并不能反映每年一定能赚这么多收益率。就好像我和马云平均一下，我们平均后每个人都有数不尽的钱，但我真的有这么多钱吗？（手动狗头）</p>
+<p>另一方面，这是<strong>回测区间内</strong>每一年的平均情况，这个指标不能说明我在真正实盘的时候每年都能达到这么多收益率；实际上，每年的收益有可能比回测的年化收益率高，但也有可能直接是负的。外部的世界会发生很多变故，哪怕发生一个黑天鹅事件，如果策略抵抗能力不强的话，也有可能会让当年的收益直接降低10个点。更不用说每一年的行情都不一样了。也就是，样本内和样本外本质上就是不一样的，是有本质区别的。</p>
+<p>**同时，最终通过策略赚的钱，本质上还是和下了多少注有关。下注的金额乘以收益率才是赚来的钱。因此，我们不仅要关注收益，更要关注风险。**这就说到了我们的第二部分：风险度量。我们先简单介绍一个常看的风险度量：最大回撤。</p>
+<h2 id="2-2-最大回撤（Max-Drawdown）"><a href="#2-2-最大回撤（Max-Drawdown）" class="headerlink" title="2.2 最大回撤（Max Drawdown）"></a>2.2 最大回撤（Max Drawdown）</h2><p>最大回撤的话，应该是各位老板看到的第二个评价策略的指标。<strong>如果说年化收益对应着“贪婪”，那最大回撤就对应着“恐惧”。</strong></p>
+<p>最大回撤表示的是在回测区间内，如果我们先到达了净值最高点，但又从这个最高点跌到之后的最低点（这个过程我们称之为回撤），最惨的一次跌了多少收益率。<strong>但这，同样是回测区间内我最大回撤了多少，而不是以后我会最大回撤多少。</strong></p>
+<p>这个指标的计算方式就稍微复杂一些。**首先，我们要看相对于每个时间点，过往的最大净值。**比如说站在现在，看过去没有比现在更高的净值，那就是现在的净值对应着最大净值；而如果有比现在更高的净值，那就找出过往最大的净值。我们假设每个时间点是现在，就能对每个时间点找出对应的过往最大净值。它的公式如下：</p>
+<p>$$<br>Peak_t&#x3D;Max_{1\le s\le t}NV_s<br>$$</p>
+<p>**其次，我们要看相对于每个时间点，从最大净值到该时间点环比跌了百分之多少。**还是上面那个例子，如果是前者，那么现在的回撤就是0；如果是后者，那么现在的回撤就是从过往的最高点到现在的总收益率（这个收益率一定是负的）。它的公式如下：</p>
+<p>$$<br>Drawdown_t&#x3D;\frac{NV_t-Peak_t}{Peak_t}<br>$$</p>
+<p><strong>最后，我们从回测区间中所有的回撤里面，选出最大的那个回撤，我们记为最大回撤</strong>，也就是：</p>
+<p>$$<br>Max Drawdown&#x3D;min_tDrawdown_t<br>$$</p>
+<p>（由于Drawdown为负，所以选出的一定是最小的回撤值，也就是最大的回撤绝对值）这一指标，本质上就是衡量：<strong>在过去，如果一直满仓运行这个策略，最多会亏的收益率。也就相当于我过去最多承受住了多少的风险。</strong></p>
+<p>但这个最大回撤，由于其最大的属性，因此可能是由于某些黑天鹅事件导致的，也可能是某些行情导致的，这些信息实际上在这个指标中都反映不出来。<strong>我们在回测的时候——尤其是A股——很可能会看到一种现象：回撤的水下曲线（也就是那个灰色阴影）就在15，16年股灾那段时间突出一个50%的峰，其他时间都在30，20甚至10%以内。这就说明单纯的最大回撤不足以反应策略整体的信息，只能说明过去扛下的最大的风险。</strong></p>
+<h2 id="2-3-两个额外的小补充"><a href="#2-3-两个额外的小补充" class="headerlink" title="2.3 两个额外的小补充"></a>2.3 两个额外的小补充</h2><p>刚才我们只是谈论了年化收益，最大回撤这两个衡量收益与回撤的指标。那么其他的收益、回撤指标都有哪些呢？下面我们来列举一下：</p>
+<ol>
+<li>收益类经典指标：<ol>
+<li><strong>其他时间尺度的平均收益</strong>：如日均收益、月均收益、季度收益等等；</li>
+<li><strong>超额收益</strong>：这类指标衡量的是相对于一个基准（benchmark）收益曲线，我对它的收益超出的部分有多少。例如做指增，我们的基准就是指数收益；如果做行业，那基准就是行业指数收益……（<strong>那么实际上，这里可以带来一个启发：如果我们在小市值策略增强的时候，按照道理，是应该和小市值的收益进行超额收益对比的，这样才能看出我们增强的那部分究竟有没有起作用。实际上，不仅仅是要看平均的超额收益，更要看超额收益的分布情况以及每个月甚至每个周一、周二之类的分布情况，这样才更能分析出我们增强的那部分带来的收益是什么样的收益。</strong>）；</li>
+<li>有些老板可能会说，既然有最大回撤，那最大收益有没有用呢？我个人认为哈，最大收益只是行情正好适用该策略，且相当于一个偶发事件。我们其实更想躲避最大风险，而并非追求最大收益。<strong>不太可能每个月都创造一个更大的收益，但每个月，都有可能会带来更大的回撤，所以这个回撤我们其实更加关心。</strong></li>
+</ol>
+</li>
+<li>回撤类经典指标：<ol>
+<li><strong>最大回撤持续时间</strong>：<strong>也就是从最深的坑里爬出来，策略用了多长时间</strong>。这个时间与最大回撤结合后，更能看出这个策略在过往的抗风险能力有多强。假设最大回撤有10%，但持续时间可能有三个月，这类策略其实收益也不是很好，抗风险能力也是差的。（当然啦，也不太可能最大回撤有50%，但我一周就爬出来了，这类还是少数。）</li>
+<li><strong>平均回撤持续时间（中位数）、平均回撤</strong>：也就是回撤和回撤持续时间的平均情况。**这两类指标能反映出负收益的平均情况，更好的帮助心态建设（这个经验来自于我玩b的经验，如果一个策略在亏损时，平均每笔亏损2%，那当我在看到新的一笔亏损了1%的时候，我的心态就很稳）。但其实，这里更建议看看水下曲线，也就是第三个：</li>
+<li><strong>水下曲线</strong>：其实也就是那个灰色阴影。这个阴影反应的是每个时间点相对于最高点亏的收益率。**往往我们更怕缓跌而不怕急跌，又比如我们想看看历史上的回撤次数、回撤力度之类，那这个水下曲线无疑是最好的参考。</li>
+</ol>
+</li>
+</ol>
+<p><strong>同时，这里再给大家一个更好的角度看待这些指标。实际上，这些指标，无一例外都和样本量相关。在统计学的视角下，本质上，样本量越大，统计出的指标可信度越高。就好像那个最大回撤，如果我们只看最大回撤，这其实只是一个最坏的样本统计出的结果，但如果我们看平均回撤和平均回撤时间，那其实会比只看最大回撤效果好很多。</strong></p>
+<p><strong>更进一步，为什么需要不同的指标一起观察？就是因为这些指标统计的是不同维度的样本。而基于样本量越大可信度越高的思想，我们统计过很多样本之后，再从不同维度进行观察，就会发现更多信息。就好像我们先看绝对收益，再看超额收益，如果绝对收益很高，同时1,4,12月的超额收益也很高，那就说明从这两个角度看来，这个策略可用，且比一般的收益高而超额收益低的策略更好用。</strong></p>
+<p>看完了收益和回撤类的评价经典指标，接下来，我们会好奇一件事：光看收益也不行，光看回撤也不行，那我们如何衡量收益与风险之间的关系？我们这时会有一个朴素的想法：利用风险衡量收益，也就是为收益加上风险的这把标尺，这样就能将两类指标进行对比，得出更强的结论。那么接下来，我们就要介绍那个最经典的指标——比率类指标。</p>
+<h1 id="三、比率类指标（上）"><a href="#三、比率类指标（上）" class="headerlink" title="三、比率类指标（上）"></a>三、比率类指标（上）</h1><p>这里，我们先给出一个结论：**这些比率类的评价指标都是“用收益除以风险”得到的，也就是用某种收益度量除以某种风险度量算出的。**那么，具体有哪些收益和风险的度量方法呢？下面我们先介绍两个常用的比率，分别是：<strong>夏普比率（Sharpe Ratio）和年化收益回撤比（Calmar Ratio，这个是有英文名字的）。</strong></p>
+<h2 id="3-1-夏普比率"><a href="#3-1-夏普比率" class="headerlink" title="3.1 夏普比率"></a>3.1 夏普比率</h2><p>夏普比率描述的是，<strong>在承担策略带来的所有风险或波动的前提下，每承担一单位波动能带来多少收益。</strong> 具体来说，利用的是日均收益率的平均水平除以日均收益率的波动，得到夏普比率。它的计算步骤如下：</p>
+<p>第一步：首先计算平均超额收益（一般这里的基准是无风险收益率，但我们一般设置为0），也就是：</p>
+<p>$$<br>\bar{r}&#x3D;\frac{\sum_{t&#x3D;1}^N{(r_t-r_{f,t})}}{N}<br>$$</p>
+<p>其中原始的$r$是日均收益率，而$r_f$是无风险收益率。</p>
+<p>第二步：算出收益的波动（也就是标准差）：</p>
+<p>$$<br>\sigma&#x3D;stdDev(r_t-r_{f,t})<br>$$</p>
+<p>其中$stdDev$计算的是每一日的收益率的总体标准差，也就是收益的波动。</p>
+<p>第三步：日度夏普计算：</p>
+<p>$$<br>Sharpe_{daily}&#x3D;\frac{\bar{r}}{\sigma}<br>$$</p>
+<p>第四步：折算为年化夏普：</p>
+<p>$$<br>Sharpe_{Annual}&#x3D;Sharpe_{daily}\times \sqrt{252}<br>$$</p>
+<p>这样就得到了年化夏普比率。</p>
+<p>那么，怎么从直觉上来看这个夏普比率呢？</p>
+<ul>
+<li><strong>分子角度：策略平均每天相对于无风险收益多赚了多少？</strong></li>
+<li><strong>分母角度：每天这个策略的盈亏起伏有多凶？</strong></li>
+<li><strong>所以，Sharpe越高，说明同样的波动下，这个策略相比于别的策略赚钱更稳定更多。</strong></li>
+</ul>
+<h2 id="3-2-三剑合一"><a href="#3-2-三剑合一" class="headerlink" title="3.2 三剑合一"></a>3.2 三剑合一</h2><p>既然我们得到了收益的观察角度、风险的观察角度、风险度量收益的初始角度，那么最基础的，怎么看一个策略一般意义上好或者不好呢？</p>
+<p>首先说，每个人的抗风险能力不一样，这里只是一个一般的说明，具体情况可以具体分析；其次，这里只描述相对来讲的一般意义的好与坏。</p>
+<p>那么这三把剑分别代表了什么？我们再次梳理一下：</p>
+<ul>
+<li>CAGR（年化收益率）高，代表赚钱能力强；</li>
+<li>Max Drawdown（最大回撤）小，代表抗打击，跌的不惨；</li>
+<li>Sharpe高，代表情绪稳定，不怎么暴躁，收益很稳。</li>
+</ul>
+<p>所以，我们一般会有考虑这样的两种策略：</p>
+<ul>
+<li><strong>第一种</strong>：<strong>CAGR高+Max Drawdown高+Sharpe一般，这样的策略我们也称之为冒险型策略。</strong> 比如一个策略，年化收益率100%，但最大回撤50%，Sharpe只有0.8，此时，能否扛住最大回撤就是关键。但现实中，我们交易的是自己的钱，所以当最大回撤50%的时候，如果是大资金，其实很可能就已经停止策略了。你的抗风险能力如何？你敢用这样大回撤的策略吗？如果是真的在运行这个策略，你敢在底部的时候加仓吗？这些都是问题。</li>
+<li><strong>第二种</strong>：<strong>CAGR一般+Max Drawdown小+Sharpe高，这样的策略我们也称之为稳健型策略。</strong> 比如一个策略，虽然年化收益率可能只有20-30%，但最大回撤只有10%甚至9%，Sharpe高达3，这个时候，我们其实就更能相信这个策略，更敢下大注，赚的绝对值也就相应会比第一种更高。Sharpe高达3说明这个策略比较稳定，对我们心态是一个很好的辅助作用。</li>
+</ul>
+<p>上面是对于这三类指标相结合的一种基础用法的说明，下面，我们来说说其他的比率类指标。由于篇幅关系，下面我们只介绍一种比率类指标，也就是“年化收益回撤比”，Calmar Ratio。</p>
+<h2 id="3-3-年化收益回撤比"><a href="#3-3-年化收益回撤比" class="headerlink" title="3.3 年化收益回撤比"></a>3.3 年化收益回撤比</h2><p>为什么光看年化收益回撤比不够？其实从上面已经能看出一些端倪，例如“最大回撤仅仅是一个样本，并不能反映普遍的情况”、“年化收益也不能代表每年这个策略都能收益这么多”等等。但其实，原因还有一个，那就是：<strong>这个指标的适用场景和夏普比率不同。</strong></p>
+<p>相信这个指标的计算不用赘述。那么我想说的是，首先，这个指标度量的是，在使用策略并满仓承担最大风险的前提下，年化收益率究竟有多值？如果这个比率连1都不到，且最大回撤很深，那确实不值。但同时，正是因为它把最大回撤放入了分母作为风险度量，<strong>所以这个指标实际上，对于经常出现大回撤的策略更加受用，而对于只有一次这样大回撤的策略就不太适用。同时，这也就要求评价的策略不仅每次跌的深，还要涨的猛。</strong></p>
+<h1 id="四、本期总结"><a href="#四、本期总结" class="headerlink" title="四、本期总结"></a>四、本期总结</h1><p>这一期，我们主要深度回顾了四个主要策略评价指标：年化收益、最大回撤、夏普比率以及年化收益回撤比，并简要介绍了三类评价指标体系：收益类、风险类、比率类。</p>
+<p>就这样~</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.dcquant.top">D.C</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.dcquant.top/2025/12/08/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/">https://www.dcquant.top/2025/12/08/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.dcquant.top" target="_blank">D.C的量化博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ChatGPT/">ChatGPT</a><a class="post-meta__tags" href="/tags/%E5%AD%A6%E4%B9%A0%E6%A8%A1%E5%BC%8F/">学习模式</a><a class="post-meta__tags" href="/tags/%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87/">评价指标</a></div><div class="post-share"><div class="social-share" data-image="/img/hexo%E5%A4%B4%E5%83%8F.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%972-ChatGPT%E5%AD%A6%E4%B9%A0/" title="BARRA模型系列2-ChatGPT学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">BARRA模型系列2-ChatGPT学习</div></div><div class="info-2"><div class="info-item-1">glmos-code-explain  本期将继续BARRA模型的系列学习，这一期的内容主要是上一期所说的BARRA从单只股票到投资组合的迁移过程，以及BARRA的风险因子与普通的Alpha因子的区别等。  一、BARRA投资组合模型1.1 从单只股票到组合现在，我们想将BARRA从单股票分析迁移到投资组合的分析上，那就有必要先明确一下投资组合的数学构建方式。这里，我们假定有$N$只股票，每只股票在该组合中的权重构成一个向量，这个向量为$w$，形状为$N\times1$。那这个向量如何把前述的所有$N$只股票都算上呢？明明有些股票对于投资组合没有任何贡献？那么这里再设定，如果某只股票当前对于投资组合没有任何收益贡献，那么就把这个股票的权重设置为0。 前面已经说过，在时间t上，我们将每个股票对应的收益设置为$r_t$（之后简记为$r$），那如何根据$r$计算出组合的收益呢？这里定义投资组合的收益为 $$r_p&#x3D;w^Tr\tag{1.1}$$ 也就是说，当前投资组合的收益是所有股票收益的加权平均，权重为$w$。再根据原有的 $$r&#x3D;Bf+\varepsilon\t...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%972-ChatGPT%E5%AD%A6%E4%B9%A0/" title="BARRA模型系列2-ChatGPT学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-08</div><div class="info-item-2">BARRA模型系列2-ChatGPT学习</div></div><div class="info-2"><div class="info-item-1">glmos-code-explain  本期将继续BARRA模型的系列学习，这一期的内容主要是上一期所说的BARRA从单只股票到投资组合的迁移过程，以及BARRA的风险因子与普通的Alpha因子的区别等。  一、BARRA投资组合模型1.1 从单只股票到组合现在，我们想将BARRA从单股票分析迁移到投资组合的分析上，那就有必要先明确一下投资组合的数学构建方式。这里，我们假定有$N$只股票，每只股票在该组合中的权重构成一个向量，这个向量为$w$，形状为$N\times1$。那这个向量如何把前述的所有$N$只股票都算上呢？明明有些股票对于投资组合没有任何贡献？那么这里再设定，如果某只股票当前对于投资组合没有任何收益贡献，那么就把这个股票的权重设置为0。 前面已经说过，在时间t上，我们将每个股票对应的收益设置为$r_t$（之后简记为$r$），那如何根据$r$计算出组合的收益呢？这里定义投资组合的收益为 $$r_p&#x3D;w^Tr\tag{1.1}$$ 也就是说，当前投资组合的收益是所有股票收益的加权平均，权重为$w$。再根据原有的 $$r&#x3D;Bf+\varepsilon\t...</div></div></div></a><a class="pagination-related" href="/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/" title="BARRA模型系列1-ChatGPT学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-08</div><div class="info-item-2">BARRA模型系列1-ChatGPT学习</div></div><div class="info-2"><div class="info-item-1">glmos-code-explain  本系列主要是我和ChatGPT学习BARRA模型的系列解说，本篇为第一期。欢迎持续关注。  一、什么是BARRA模型？为什么需要BARRA？1.1 为啥要多因子？BARRA模型发展的起因是，旧有的CAPM模型（单因子模型）不足以解释股票收益的绝对收益、超额收益及风险与波动。  CAPM模型的主要公式： $$股票收益&#x3D;无风险利率+\beta\cdot市场组合收益$$  这样的模型不能解释一些现象，例如：  小市值股票长期收益更高（规模因子）； 低估值股票长期收益更高（价值因子）； 近一段时间涨的多的股票更容易继续涨（动量因子）； ……   于是，与其使用单个因子解释预期收益与风险，不如用一堆因子，这也就是因子库的思想。   1.2 BARRA是什么？BARRA是一整套商业化的风险因子体系与模型，大致包括：  因子库：风格因子，行业因子，国家、地区因子…… 因子暴露数据：每只股票在这些因子上的暴露程度，例如这股票有多么小盘 &#x2F; 价值 &#x2F; 动量…… 协方差&#x2F;风险模型：通过因子协方差矩阵+特质风险，算投资组合...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/hexo%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">D.C</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">10</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E7%AD%96%E7%95%A5%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E6%80%BB%E8%A7%88"><span class="toc-number">1.</span> <span class="toc-text">一、策略评价指标总览</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-1-%E9%93%BA%E5%9E%AB"><span class="toc-number">1.1.</span> <span class="toc-text">1.1 铺垫</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-2-%E7%AD%96%E7%95%A5%E8%AF%84%E4%BB%B7%E7%9A%84%E4%BA%94%E4%B8%AA%E7%BB%B4%E5%BA%A6"><span class="toc-number">1.2.</span> <span class="toc-text">1.2 策略评价的五个维度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#1-3-%E5%8F%99%E8%BF%B0%E6%B5%81%E7%A8%8B"><span class="toc-number">1.3.</span> <span class="toc-text">1.3 叙述流程</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%A2%A6%E5%BC%80%E5%A7%8B%E7%9A%84%E5%9C%B0%E6%96%B9"><span class="toc-number">2.</span> <span class="toc-text">二、梦开始的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#2-1-%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E7%8E%87%EF%BC%88CAGR%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">2.1 年化收益率（CAGR）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-2-%E6%9C%80%E5%A4%A7%E5%9B%9E%E6%92%A4%EF%BC%88Max-Drawdown%EF%BC%89"><span class="toc-number">2.2.</span> <span class="toc-text">2.2 最大回撤（Max Drawdown）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-3-%E4%B8%A4%E4%B8%AA%E9%A2%9D%E5%A4%96%E7%9A%84%E5%B0%8F%E8%A1%A5%E5%85%85"><span class="toc-number">2.3.</span> <span class="toc-text">2.3 两个额外的小补充</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%AF%94%E7%8E%87%E7%B1%BB%E6%8C%87%E6%A0%87%EF%BC%88%E4%B8%8A%EF%BC%89"><span class="toc-number">3.</span> <span class="toc-text">三、比率类指标（上）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#3-1-%E5%A4%8F%E6%99%AE%E6%AF%94%E7%8E%87"><span class="toc-number">3.1.</span> <span class="toc-text">3.1 夏普比率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-2-%E4%B8%89%E5%89%91%E5%90%88%E4%B8%80"><span class="toc-number">3.2.</span> <span class="toc-text">3.2 三剑合一</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-3-%E5%B9%B4%E5%8C%96%E6%94%B6%E7%9B%8A%E5%9B%9E%E6%92%A4%E6%AF%94"><span class="toc-number">3.3.</span> <span class="toc-text">3.3 年化收益回撤比</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9B%9B%E3%80%81%E6%9C%AC%E6%9C%9F%E6%80%BB%E7%BB%93"><span class="toc-number">4.</span> <span class="toc-text">四、本期总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/" title="量化评价指标系列1-ChatGPT学习">量化评价指标系列1-ChatGPT学习</a><time datetime="2025-12-08T07:25:04.009Z" title="发表于 2025-12-08 07:25:04">2025-12-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%972-ChatGPT%E5%AD%A6%E4%B9%A0/" title="BARRA模型系列2-ChatGPT学习">BARRA模型系列2-ChatGPT学习</a><time datetime="2025-12-08T06:05:13.289Z" title="发表于 2025-12-08 06:05:13">2025-12-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/" title="BARRA模型系列1-ChatGPT学习">BARRA模型系列1-ChatGPT学习</a><time datetime="2025-12-08T02:56:02.379Z" title="发表于 2025-12-08 02:56:02">2025-12-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/07/Alpha%E5%9B%A0%E5%AD%90%E5%BA%93%E7%B2%BE%E7%AE%80%E4%B8%8E%E4%BC%98%E5%8C%96-%E4%B8%9C%E6%96%B9%E8%AF%81%E5%88%B8%E7%A0%94%E6%8A%A5/" title="Alpha因子库精简与优化-东方证券研报">Alpha因子库精简与优化-东方证券研报</a><time datetime="2025-12-07T13:23:29.576Z" title="发表于 2025-12-07 13:23:29">2025-12-07</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 By D.C</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="/"></script></div></body></html>
