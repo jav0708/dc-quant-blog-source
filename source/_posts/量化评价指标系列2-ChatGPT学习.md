@@ -9,7 +9,7 @@ tags:
 - 学习模式
 - 评价指标
 title: 量化评价指标系列2-ChatGPT学习
-updated: '2025-12-08T15:37:35.225+08:00'
+updated: '2025-12-08T17:39:00.523+08:00'
 ---
 glmos-code-explain
 
@@ -60,7 +60,7 @@ $$
 
 所以，我们用一句话足以概括这个Sortino指标，那就是：
 
-<h1 align="center">Sortino是只针对下跌的Sharpe<h1>
+<p align="center">Sortino是只针对下跌的Sharpe</p>
 
 ## 1.2 这类指标如何解读
 
