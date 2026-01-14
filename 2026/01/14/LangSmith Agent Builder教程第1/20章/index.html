@@ -1,0 +1,382 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>LangSmith Agent Builder教程第1/20章 | D.C的量化博客</title><meta name="author" content="D.C"><meta name="copyright" content="D.C"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="第1章：Agent Builder 是什么，以及为什么它是“最新推出”的（GA 里程碑） 本章目标（1-2 句） 让你对 LangSmith Agent Builder 的定位、能力边界与“最新推出”的证据形成一致认知，并完成“可开始动手”的最小准备（账号、密钥、入口与调用方式）。  核心概念与机制（要准确，必要时引用官方定义）  产品定位：no-code agents LangSmith Age">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LangSmith Agent Builder教程第1&#x2F;20章">
+<meta property="og:url" content="https://www.dcquant.top/2026/01/14/LangSmith%20Agent%20Builder%E6%95%99%E7%A8%8B%E7%AC%AC1/20%E7%AB%A0/index.html">
+<meta property="og:site_name" content="D.C的量化博客">
+<meta property="og:description" content="第1章：Agent Builder 是什么，以及为什么它是“最新推出”的（GA 里程碑） 本章目标（1-2 句） 让你对 LangSmith Agent Builder 的定位、能力边界与“最新推出”的证据形成一致认知，并完成“可开始动手”的最小准备（账号、密钥、入口与调用方式）。  核心概念与机制（要准确，必要时引用官方定义）  产品定位：no-code agents LangSmith Age">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg">
+<meta property="article:published_time" content="2026-01-14T04:08:42.705Z">
+<meta property="article:modified_time" content="2026-01-14T04:08:44.710Z">
+<meta property="article:author" content="D.C">
+<meta property="article:tag" content="AI Agent">
+<meta property="article:tag" content="ChatGPT教程">
+<meta property="article:tag" content="LangChain">
+<meta property="article:tag" content="LangSmith">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "LangSmith Agent Builder教程第1/20章",
+  "url": "https://www.dcquant.top/2026/01/14/LangSmith%20Agent%20Builder%E6%95%99%E7%A8%8B%E7%AC%AC1/20%E7%AB%A0/",
+  "image": "https://www.dcquant.top/img/hexo%E5%A4%B4%E5%83%8F.jpg",
+  "datePublished": "2026-01-14T04:08:42.705Z",
+  "dateModified": "2026-01-14T04:08:44.710Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "D.C",
+      "url": "https://www.dcquant.top"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.dcquant.top/2026/01/14/LangSmith%20Agent%20Builder%E6%95%99%E7%A8%8B%E7%AC%AC1/20%E7%AB%A0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="stylesheet" href="/css/index.css?v=5.5.2"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@7.1.0/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.12.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'LangSmith Agent Builder教程第1/20章',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 8.1.1"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/hexo%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/hexo%E8%83%8C%E6%99%AF%E5%9B%BE.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">D.C的量化博客</span></a><a class="nav-page-title" href="/"><span class="site-name">LangSmith Agent Builder教程第1/20章</span><span class="site-name"><i class="fa-solid fa-circle-arrow-left"></i><span>  返回首页</span></span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">LangSmith Agent Builder教程第1/20章</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2026-01-14T04:08:42.705Z" title="发表于 2026-01-14 04:08:42">2026-01-14</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2026-01-14T04:08:44.710Z" title="更新于 2026-01-14 04:08:44">2026-01-14</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/LangSmith%E7%9B%B8%E5%85%B3/">LangSmith相关</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="第1章：Agent-Builder-是什么，以及为什么它是“最新推出”的（GA-里程碑）"><a href="#第1章：Agent-Builder-是什么，以及为什么它是“最新推出”的（GA-里程碑）" class="headerlink" title="第1章：Agent Builder 是什么，以及为什么它是“最新推出”的（GA 里程碑）"></a>第1章：Agent Builder 是什么，以及为什么它是“最新推出”的（GA 里程碑）</h1><ul>
+<li><p><strong>本章目标（1-2 句）</strong> 让你对 LangSmith Agent Builder 的定位、能力边界与“最新推出”的证据形成一致认知，并完成“可开始动手”的最小准备（账号、密钥、入口与调用方式）。</p>
+</li>
+<li><p><strong>核心概念与机制（要准确，必要时引用官方定义）</strong></p>
+<ol>
+<li><strong>产品定位：no-code agents</strong> <strong>LangSmith Agent Builder 的官方定义是：</strong>“Create helpful AI agents without code（无需写代码创建 AI Agent）”<strong>；你可以从模板出发或用自然语言描述目标，让系统生成可运行的 Agent 配置，并在关键动作上通过“审批”保持人类控制权。</strong>   <strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder">https://docs.langchain.com/langsmith/agent-builder</a></li>
+<li><strong>“最新推出”的含义：从 Beta → GA 的发布阶段跃迁</strong>  <strong>官方在 <strong>2026-01-13</strong> 发布 GA 公告，明确 Agent Builder “now generally available”，并描述其从“描述目标 → 引导方案 → 生成详细指令、工具选择、必要时使用 subagents → 部署”的端到端路径。对企业&#x2F;团队而言，GA 通常意味着可用性、支持与商业化策略进入更稳定阶段，因此在“最新推出”语境下，GA 是最关键、最可验证的最新发布节点。</strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://www.blog.langchain.com/langsmith-agent-builder-generally-available/">https://www.blog.langchain.com/langsmith-agent-builder-generally-available/</a></li>
+<li><strong>底层实现主线：Deep Agents（deepagents）与 LangGraph</strong>  <strong>官方在 2025-10-29 的介绍文章里说明：当时的 LangSmith Agent Builder <strong>built on top of <code>deepagents</code></strong>，并强调 Deep Agents 提供 <em>planning、persistent memory、sub-task decomposition</em> 等能力，使得用户无需手工绘制每个分支流程。</strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://www.blog.langchain.com/langsmith-agent-builder/">https://www.blog.langchain.com/langsmith-agent-builder/</a>  <strong>同时，Deep Agents 官方文档将其定义为一个 “agent harness”，并强调它是建立在 LangGraph 之上的独立库，包含规划、文件系统式上下文管理、子代理等能力。</strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.langchain.com/oss/python/deepagents/overview">https://docs.langchain.com/oss/python/deepagents/overview</a></li>
+<li><strong>与开发者生态的衔接：Agent Server + LangGraph SDK</strong> Agent Builder 生成的 agent 运行在 <strong>Agent Server</strong> 上，并可通过 <strong>LangGraph SDK</strong> 从 Python&#x2F;TypeScript 侧调用。这意味着：<ul>
+<li><strong>业务同学可以 no-code 搭建；</strong></li>
+<li><strong>工程团队可以把 agent 作为服务集成到应用、触发器或工作流中（例如后续章节会讲到：Webhook&#x2F;定时任务&#x2F;Slack 触发等）。</strong> 参考：<a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-code">https://docs.langchain.com/langsmith/agent-builder-code</a></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>操作步骤&#x2F;流程（用项目符号或编号）</strong> 下面给出你在第 1 天最应该完成的最小闭环（MVP）路径：</p>
+<ol>
+<li><strong>准备 LangSmith 账号与模型密钥</strong><ul>
+<li><strong>打开 LangSmith（smith.langchain.com），进入 Settings → Secrets</strong></li>
+<li><strong>添加你使用的模型提供方密钥，例如 <strong><code>OPENAI_API_KEY</code> 或 <code>ANTHROPIC_API_KEY</code>（按官方 quickstart）</strong></strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-quickstart">https://docs.langchain.com/langsmith/agent-builder-quickstart</a></li>
+</ul>
+</li>
+<li><strong>进入 Agent Builder 入口</strong><ul>
+<li><strong>在 LangSmith 左侧导航中，点击 “Switch to Agent Builder”（官方 quickstart 明确该入口）</strong></li>
+<li><strong>选择一种创建方式：</strong><ul>
+<li><strong>Template（模板）起步：适合快速落地</strong></li>
+<li><strong>Chat（自然语言）起步：适合从“需求描述”生成配置</strong></li>
+<li><strong>Manual（手工配置）起步：适合对工具&#x2F;权限&#x2F;审批粒度有严格要求</strong> 参考：<a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-quickstart">https://docs.langchain.com/langsmith/agent-builder-quickstart</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>完成一次最小测试对话（强烈建议）</strong><ul>
+<li><strong>在右侧 Test Chat 里输入一条简单任务指令</strong></li>
+<li><strong>观察 agent 是否会在关键动作前请求审批（approval），并确认工具连接是否正常（例如 Gmail&#x2F;Calendar 等需要 OAuth）</strong> 参考：<a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-quickstart">https://docs.langchain.com/langsmith/agent-builder-quickstart</a></li>
+</ul>
+</li>
+<li><strong>（可选，但推荐）生成调用代码片段，确保可“工程化集成”</strong><ul>
+<li><strong>打开 agent 设置 → View code snippets</strong></li>
+<li><strong>记录 <strong><code>agent_id</code> 与 <code>api_url</code>，后续章节会用它们做部署、A&#x2F;B 测试、以及与 LangSmith Tracing&#x2F;Evals 的结合</strong></strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-code">https://docs.langchain.com/langsmith/agent-builder-code</a></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>示例（代码或伪代码，尽量短但能运行；若涉及配置也写出）</strong> 这个示例的目标不是“构建 agent”（那在 UI 完成），而是验证：你已经可以在代码里通过 LangGraph SDK 读到 Agent Builder agent 的元信息，为后续“应用集成&#x2F;触发执行”打基础。<br><strong>1）安装依赖</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">   pip install langgraph-sdk python-dotenv</span><br></pre></td></tr></table></figure>
+<p><strong>2）写入 .env（使用 LangSmith Personal Access Token）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">   LANGGRAPH_API_KEY=your-personal-access-token</span><br></pre></td></tr></table></figure>
+<p><strong>3）Python：读取 agent 元信息（官方示例改写为最小可运行版）</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">   import os</span><br><span class="line">   import asyncio</span><br><span class="line">   from dotenv import load_dotenv</span><br><span class="line">   from langgraph_sdk.client import get_client</span><br><span class="line">   </span><br><span class="line">   load_dotenv()</span><br><span class="line">   </span><br><span class="line">   AGENT_ID = &quot;your-agent-id&quot;  # 从 Agent Builder -&gt; settings -&gt; View code snippets 获取</span><br><span class="line">   API_URL = &quot;your-api-url&quot;    # 同上</span><br><span class="line">   </span><br><span class="line">   async def main():</span><br><span class="line">     api_key = os.getenv(&quot;LANGGRAPH_API_KEY&quot;)</span><br><span class="line">     if not api_key:</span><br><span class="line">       raise RuntimeError(&quot;Missing LANGGRAPH_API_KEY in environment&quot;)</span><br><span class="line">   </span><br><span class="line">     client = get_client(</span><br><span class="line">       url=API_URL,</span><br><span class="line">       api_key=api_key,</span><br><span class="line">       headers=&#123;&quot;X-Auth-Scheme&quot;: &quot;langsmith-api-key&quot;&#125;,</span><br><span class="line">     )</span><br><span class="line">   </span><br><span class="line">     agent = await client.assistants.get(AGENT_ID)</span><br><span class="line">     print(&quot;Agent name:&quot;, agent.get(&quot;name&quot;))</span><br><span class="line">     print(&quot;Agent id:&quot;, agent.get(&quot;id&quot;))</span><br><span class="line">   </span><br><span class="line">   if __name__ == &quot;__main__&quot;:</span><br><span class="line">     asyncio.run(main())</span><br></pre></td></tr></table></figure>
+<p><strong>关键点：</strong><code>X-Auth-Scheme: langsmith-api-key</code> 与 PAT 绑定关系是 Agent Builder 调用成功的前提（详见官方文档）。<strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-code">https://docs.langchain.com/langsmith/agent-builder-code</a></p>
+</li>
+<li><p><strong>常见坑与排查（至少 2 条）</strong></p>
+<ol>
+<li><strong>“创建后无法运行&#x2F;模型不响应”</strong>：多数是没在 LangSmith workspace 里配置模型密钥（Secrets）。<ul>
+<li><strong>排查：Settings → Secrets 是否存在 <strong><code>OPENAI_API_KEY</code> &#x2F; <code>ANTHROPIC_API_KEY</code> 等，并且 key 名与官方要求一致。</strong></strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-quickstart">https://docs.langchain.com/langsmith/agent-builder-quickstart</a></li>
+</ul>
+</li>
+<li><strong>“从代码调用返回 404 Not Found”</strong>：官方明确指出，如果 PAT <strong>不是 agent 所有者账户</strong> 的 token，请求可能被拒绝并出现 404。<ul>
+<li><strong>排查：确认 PAT 归属；确认你调用的是你有权限访问的 agent；确认加了 <strong><code>X-Auth-Scheme: langsmith-api-key</code>。</strong></strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-code">https://docs.langchain.com/langsmith/agent-builder-code</a></li>
+</ul>
+</li>
+<li><strong>“把 Vertex AI Agent Builder 当作 LangChain Agent Builder”</strong>：产品名相似但体系不同，会导致你跟着错误文档走。<ul>
+<li><strong>排查：确认你在 <strong><code>smith.langchain.com</code> 的 Agent Builder 界面；文档域名是否为 <code>docs.langchain.com</code> &#x2F; <code>blog.langchain.com</code>。</strong></strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.cloud.google.com/agent-builder/agent-engine/develop/langgraph">https://docs.cloud.google.com/agent-builder/agent-engine/develop/langgraph</a></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p><strong>适用场景&#x2F;最佳实践（至少 2 条）</strong></p>
+<ol>
+<li><strong>最佳场景：跨多应用的“标签页跳转型”日常工作自动化</strong> <strong>官方 GA 公告点名了 daily briefings、research、project tracking 等跨工具任务；这类任务通常具备“输入是自然语言目标、输出是多步动作与工件”的特征，适合 Agent Builder 以“规划 + 工具调用 + 审批”的方式落地</strong>。<strong>参考：</strong><a target="_blank" rel="noopener" href="https://www.blog.langchain.com/langsmith-agent-builder-generally-available/">https://www.blog.langchain.com/langsmith-agent-builder-generally-available/</a></li>
+<li><strong>先用模板收敛需求，再用“对话式修改”迭代</strong> <strong>Agent Builder 官方文档强调从模板或自然语言开始，并可在运行中迭代配置。建议第一天先选模板把工具链跑通，再逐步收紧权限与审批策略，避免上来就做“大而全 agent”。</strong> <strong>参考：</strong><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-templates">https://docs.langchain.com/langsmith/agent-builder-templates</a> 参考：<a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-quickstart">https://docs.langchain.com/langsmith/agent-builder-quickstart</a></li>
+</ol>
+</li>
+<li><p><strong>本章小结（1-2 句）</strong> 你现在应当明确：本文所说的 “Agent Builder” 指 <strong>LangSmith Agent Builder</strong>，并且其“最新推出”的关键证据是 <strong>2026-01-13 的 GA 公告</strong>。完成本章后，你已经具备在 UI 创建 agent、并在代码侧通过 LangGraph SDK 访问 agent 的最小能力。</p>
+</li>
+<li><p><strong>参考链接&#x2F;引用</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.blog.langchain.com/langsmith-agent-builder-generally-available/">https://www.blog.langchain.com/langsmith-agent-builder-generally-available/</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder">https://docs.langchain.com/langsmith/agent-builder</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-quickstart">https://docs.langchain.com/langsmith/agent-builder-quickstart</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.langchain.com/langsmith/agent-builder-code">https://docs.langchain.com/langsmith/agent-builder-code</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.blog.langchain.com/langsmith-agent-builder/">https://www.blog.langchain.com/langsmith-agent-builder/</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.langchain.com/oss/python/deepagents/overview">https://docs.langchain.com/oss/python/deepagents/overview</a></li>
+</ul>
+</li>
+</ul>
+</article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/LangChain/">LangChain</a><a class="post-meta__tags" href="/tags/LangSmith/">LangSmith</a><a class="post-meta__tags" href="/tags/AI-Agent/">AI Agent</a><a class="post-meta__tags" href="/tags/ChatGPT%E6%95%99%E7%A8%8B/">ChatGPT教程</a></div><div class="post-share"><div class="social-share" data-image="/img/hexo%E5%A4%B4%E5%83%8F.jpg" data-sites="facebook,x,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/12/10/%E5%81%9A%E5%A4%9A%E5%81%9A%E7%A9%BA%E6%94%B6%E7%9B%8A%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%861-ChatGPT%E5%AD%A6%E4%B9%A0/" title="做多做空收益的数学原理-ChatGPT学习"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">做多做空收益的数学原理-ChatGPT学习</div></div><div class="info-2"><div class="info-item-1"> 本篇文章主要用于探讨：对于做空的收益，其影响因素都有哪些，有哪些方法在某些前提条件下可以放大收益？ 本篇会在偏数学的层面进行探讨，偏硬核。  前两天看到一篇论坛的精华帖，说的是“单边行情下滚仓对做多做空的影响差异分析”。这不禁让我想起，前两天我自己还在琢磨做空的收益是否永远小于100%这个问题，因为这个结论似乎有点违背我的直觉：这只是单次做空的情况，但实际上，我们交易又不会只做一次。这个问题及其背后的系列问题很有意思！ 帖子的作者使用的是偏数学的方法进行的研究，且主要研究了滚仓+单边行情+杠杆1x的情况。但我觉得这背后有些深刻的内容，于是开始拷问GPT。在拷问一番帖子中的那个情况和做法之后，我觉得有必要再整理一篇帖子甚至一系列帖子出来讲讲这个问题，促成了本篇帖子。 我先试着用数学的方式说说这个问题，本期主要讲两个点：  单边价格下跌时，滚仓不限制杠杆做空的收益影响因素； 先单边上涨后单边下跌时，利用马丁格尔方法做空的收益影响因素。  话不多说，直接正题。如果不喜欢看偏数学证明类的东西，直接看1.2节和2.3节开头结论就好～ 一、单边价格下跌滚仓做空1.1 策略的数学定义为了讲清...</div></div></div></a></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/hexo%E5%A4%B4%E5%83%8F.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">D.C</div><div class="author-info-description"></div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/jav0708"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/jav0708" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AC%AC1%E7%AB%A0%EF%BC%9AAgent-Builder-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%BA%E4%BB%80%E4%B9%88%E5%AE%83%E6%98%AF%E2%80%9C%E6%9C%80%E6%96%B0%E6%8E%A8%E5%87%BA%E2%80%9D%E7%9A%84%EF%BC%88GA-%E9%87%8C%E7%A8%8B%E7%A2%91%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">第1章：Agent Builder 是什么，以及为什么它是“最新推出”的（GA 里程碑）</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2026/01/14/LangSmith%20Agent%20Builder%E6%95%99%E7%A8%8B%E7%AC%AC1/20%E7%AB%A0/" title="LangSmith Agent Builder教程第1/20章">LangSmith Agent Builder教程第1/20章</a><time datetime="2026-01-14T04:08:42.705Z" title="发表于 2026-01-14 04:08:42">2026-01-14</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/10/%E5%81%9A%E5%A4%9A%E5%81%9A%E7%A9%BA%E6%94%B6%E7%9B%8A%E7%9A%84%E6%95%B0%E5%AD%A6%E5%8E%9F%E7%90%861-ChatGPT%E5%AD%A6%E4%B9%A0/" title="做多做空收益的数学原理-ChatGPT学习">做多做空收益的数学原理-ChatGPT学习</a><time datetime="2025-12-10T08:18:47.168Z" title="发表于 2025-12-10 08:18:47">2025-12-10</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%972-ChatGPT%E5%AD%A6%E4%B9%A0/" title="量化评价指标系列2-ChatGPT学习">量化评价指标系列2-ChatGPT学习</a><time datetime="2025-12-08T07:37:34.283Z" title="发表于 2025-12-08 07:37:34">2025-12-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/%E9%87%8F%E5%8C%96%E8%AF%84%E4%BB%B7%E6%8C%87%E6%A0%87%E7%B3%BB%E5%88%971-ChatGPT%E5%AD%A6%E4%B9%A0/" title="量化评价指标系列1-ChatGPT学习">量化评价指标系列1-ChatGPT学习</a><time datetime="2025-12-08T07:25:04.009Z" title="发表于 2025-12-08 07:25:04">2025-12-08</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/12/08/BARRA%E6%A8%A1%E5%9E%8B%E7%B3%BB%E5%88%972-ChatGPT%E5%AD%A6%E4%B9%A0/" title="BARRA模型系列2-ChatGPT学习">BARRA模型系列2-ChatGPT学习</a><time datetime="2025-12-08T06:05:13.289Z" title="发表于 2025-12-08 06:05:13">2025-12-08</time></div></div></div></div></div></div></main><footer id="footer"><div class="footer-other"><div class="footer-copyright"><span class="copyright">&copy;&nbsp;2025 - 2026 By D.C</span><span class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 8.1.1</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.5.2</a></span></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="前往评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=5.5.2"></script><script src="/js/main.js?v=5.5.2"></script><div class="js-pjax"><script>(() => {
+  const loadMathjax = () => {
+    if (!window.MathJax) {
+      window.MathJax = {
+        loader: {
+          load: [
+            // Four font extension packages (optional)
+            //- '[tex]/bbm',
+            //- '[tex]/bboldx',
+            //- '[tex]/dsfont',
+            '[tex]/mhchem'
+          ],
+          paths: {
+            'mathjax-newcm': '[mathjax]/../@mathjax/mathjax-newcm-font',
+
+            //- // Four font extension packages (optional)
+            //- 'mathjax-bbm-extension': '[mathjax]/../@mathjax/mathjax-bbm-font-extension',
+            //- 'mathjax-bboldx-extension': '[mathjax]/../@mathjax/mathjax-bboldx-font-extension',
+            //- 'mathjax-dsfont-extension': '[mathjax]/../@mathjax/mathjax-dsfont-font-extension',
+            'mathjax-mhchem-extension': '[mathjax]/../@mathjax/mathjax-mhchem-font-extension'
+          }
+        },
+        output: {
+          font: 'mathjax-newcm',
+        },
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          tags: 'none',
+          packages: {
+            '[+]': [
+              'mhchem'
+            ]
+          }
+        },
+        chtml: {
+          scale: 1.1
+        },
+        options: {
+          enableMenu: true,
+          menuOptions: {
+            settings: {
+              enrich: false  // Turn off Braille and voice narration text automatic generation
+            }
+          },
+          renderActions: {
+            findScript: [10, doc => {
+              for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+                const display = !!node.type.match(/; *mode=display/)
+                const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+                const text = document.createTextNode('')
+                node.parentNode.replaceChild(text, node)
+                math.start = {node: text, delim: '', n: 0}
+                math.end = {node: text, delim: '', n: 0}
+                doc.math.push(math)
+              }
+            }, '']
+          }
+        }
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@4.0.0/tex-mml-chtml.min.js'
+      script.id = 'MathJax-script'
+      script.async = true
+      document.head.appendChild(script)
+    } else {
+      MathJax.startup.document.state(0)
+      MathJax.texReset()
+      MathJax.typesetPromise()
+    }
+  }
+
+  btf.addGlobalFn('encrypt', loadMathjax, 'mathjax')
+  window.pjax ? loadMathjax() : window.addEventListener('load', loadMathjax)
+})()</script><script>(() => {
+  const isShuoshuo = GLOBAL_CONFIG_SITE.pageType === 'shuoshuo'
+  const option = null
+  const getUtterancesTheme = theme => theme === 'dark' ? 'photon-dark' : 'github-light'
+
+  const loadUtterances = (el = document, key) => {
+    if (isShuoshuo) {
+      window.shuoshuoComment.destroyUtterances = () => {
+        if (el.children.length) {
+          el.innerHTML = ''
+          el.classList.add('no-comment')
+        }
+      }
+    }
+
+    const config = {
+      src: 'https://utteranc.es/client.js',
+      repo: 'jav0708/dc-quant-blog-source',
+      theme: getUtterancesTheme(document.documentElement.getAttribute('data-theme')),
+      crossorigin: 'anonymous',
+      async: true,
+      ...option,
+      'issue-term': isShuoshuo ? key : (option && option['issue-term']) || 'pathname'
+    }
+
+    const ele = document.createElement('script')
+    Object.entries(config).forEach(([key, value]) => ele.setAttribute(key, value))
+    el.querySelector('#utterances-wrap').appendChild(ele)
+  }
+
+  const changeUtterancesTheme = theme => {
+    const iframe = document.querySelector('#utterances-wrap iframe')
+    if (iframe) {
+      const message = {
+        type: 'set-theme',
+        theme: getUtterancesTheme(theme)
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es')
+    }
+  }
+
+  btf.addGlobalFn('themeChange', changeUtterancesTheme, 'utterances')
+
+  if (isShuoshuo) {
+    'Utterances' === 'Utterances'
+      ? window.shuoshuoComment = { loadComment: loadUtterances }
+      : window.loadOtherComment = loadUtterances
+    return
+  }
+  
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/canvas-nest.min.js"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.6/dist/click-heart.min.js" async="async" mobile="false"></script><script async data-pjax src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
